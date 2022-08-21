@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Add New Item
+{% endblock title %}
+
+{% block body %}
+<header class="alert alert-primary">Adding Item</header>
+<form name="additmfrm" id="additmfrm" method="POST" action="/additems">
+    {% csrf_token %}
+    <div class="container" style="border: 1px solid black;">
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+        <span class="input-group-text">Item Name: <input type="text" id="product_name" name="product_name" placeholder="Item name"></span>
+      </div>
+    </div>
+
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+        <span class="input-group-text" >Units: <input type="number" id="units" name="units" placeholder="No. Items"></span>
+      </div>
+    </div>
+
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+        <span class="input-group-text">Item Price: <input type="float" id="price" name="price" placeholder="Item price"></span>
+      </div>
+    </div>
+    </div>
+    <button type="submit" class="btn btn-success" style="float:right;">Add Item!</button>
+
+</form>
+{% endblock body %}

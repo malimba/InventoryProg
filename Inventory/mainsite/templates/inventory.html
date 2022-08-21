@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Inventory
+{% endblock title %}
+
+{% block body %}
+{% if prods %}
+<header class="alert alert-primary">Inventory Listing</header>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Product Name</th>
+            <th scope="col">Units</th>
+            <th scope="col">Price</th>
+            <th scope="col">Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for prod in prods %}
+    <tr>
+        <th scope="row">{{prod.id}}</th>
+        <th scope="row">{{prod.product_name}}</th>
+        <th scope="row">{{prod.units}}</th>
+        <th scope="row">{{prod.price}}</th>
+        <th scope="row"><a href="/delete/{{prod.id}}" style="color:white;"><button class="btn btn-danger">Del</button> </a></th>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<header class="alert alert-danger">Nothing In Inventory</header>
+{% endif %}
+<button class="btn btn-primary" style=""><a style="float:right;color:white;" href="{% url 'mainsite:additems' %}">Add item</a></button>
+{% endblock body %}
