@@ -15,7 +15,10 @@ def Home(request):
             return render(request, 'inventory.html', context)
         except Exception as e:
             print(e)
-            if not request.session['loggedin']:
+            try:
+                if not request.session['loggedin']:
+                    return redirect('users:login')
+            except Exception:
                 return redirect('users:login')
             allProds = Products.objects.all()
             context = {'prods':allProds}
