@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Checkout
+{% endblock title %}
+
+{% block body %}
+{% if selected %}
+<header class="alert alert-primary">Inventory Listing</header>
+<form method="POST" action="/confirm">
+    {% csrf_token %}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Product Name</th>
+            <th scope="col">Current Units</th>
+            <th scope="col">Price</th>
+            <th scope="col">Remove N Units</th>
+            <th scope="col">Add N Units</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for prod in selected %}
+    <tr>
+        <th scope="row">{{prod.id}}</th>
+        <th scope="row">{{prod.product_name}}</th>
+        <th scope="row">{{prod.units}}</th>
+        <th scope="row">{{prod.price}}</th>
+        <th scope="row"><input type="number" placeholder="units to remove" id="{{prod.id}}" name="{{prod.id}}"></th>
+        <th scope="row"><input type="number" placeholder="units to add" id="{{prod.id}}c" name="{{prod.id}}c"></th>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<button type="submit" class="btn btn-primary">Confirm</button>
+</form>
+{% else %}
+<header class="alert alert-danger">Nothing In Checkout</header>
+{% endif %}
+{% endblock body %}

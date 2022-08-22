@@ -7,3 +7,4 @@ class Products(models.Model):
     product_name = models.TextField(blank=False, null=False, default='')
     units = models.IntegerField(blank=False, null=False, default=0)
     price = models.FloatField(blank=False, null=False, default=0)
+    amountmade = models.FloatField(blank=False, null=False, default=0)

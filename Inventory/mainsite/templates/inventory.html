@@ -13,16 +13,19 @@ Inventory
             <th scope="col">#</th>
             <th scope="col">Product Name</th>
             <th scope="col">Units</th>
+            <th scope="col">Amount Made</th>
             <th scope="col">Price</th>
             <th scope="col">Delete</th>
         </tr>
     </thead>
     <tbody>
     {% for prod in prods %}
-    <tr>
+    {% csrf_token %}
+    <tr id="{{prod.id}}" class="" onclick="addtocart({{prod.id}});">
         <th scope="row">{{prod.id}}</th>
         <th scope="row">{{prod.product_name}}</th>
         <th scope="row">{{prod.units}}</th>
+        <th scope="row">{{prod.amountmade}}</th>
         <th scope="row">{{prod.price}}</th>
         <th scope="row"><a href="/delete/{{prod.id}}" style="color:white;"><button class="btn btn-danger">Del</button> </a></th>
     </tr>
@@ -32,5 +35,5 @@ Inventory
 {% else %}
 <header class="alert alert-danger">Nothing In Inventory</header>
 {% endif %}
-<button class="btn btn-primary" style=""><a style="float:right;color:white;" href="{% url 'mainsite:additems' %}">Add item</a></button>
-{% endblock body %}
+<button class="btn btn-primary" style=""><a style="gravity:right;float:right;color:white;" href="{% url 'mainsite:additems' %}">Add item</a></button>
+<button style="visibility:hidden;float:right;color:white;" class="btn btn-primary" id="checkoutbtn" style=""><a style="color:white;" href="{% url 'mainsite:checkout' %}">Checkout</a></button>{% endblock body %}
