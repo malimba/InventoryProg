@@ -114,6 +114,91 @@ def confirm(request):
         except Exception as e:
             print(e)
 
+#view to add user
+def adduser(request):
+    if request.method == 'GET':
+        context={}
+        return render(request, 'adduser.html', context)
+
+#view to manage user
+def manageuser(request):
+    if request.method == 'GET':
+        context  = {}
+        return render(request, 'manageuser.html', context)
+#view to add groups
+def addgroups(request):
+    if request.method == 'GET':
+        context = {}
+        return render(request, 'addgroups.html', context)
+#view to manage groups
+def managegroups(request):
+    if request.method == 'GET':
+        context = {}
+        return render(request, 'managegroups.html', context)
+
+#view to manage brands
+def managebrands(request):
+    if request.method == 'GET':
+        context = {}
+        return render(request, 'managebrands.html', context)
+#view to manage brands
+def managecategory(request):
+    if request.method == 'GET':
+        context = {}
+        return render(request, 'managecategory.html', context)
+#view to manage brands
+def managestores(request):
+    if request.method == 'GET':
+        context = {}
+        return render(request, 'managestores.html', context)
+#view to manage brands
+def manageattr(request):
+    if request.method == 'GET':
+        context = {}
+        return render(request, 'manageattr.html', context)
+#view to add new product
+def addproduct(request):
+    if request.method == 'GET':
+        context = {}
+        return render(request, 'addprod.html', context)
+#view to manage product
+def manageproducts(request):
+    if request.method == 'GET':
+        context = {}
+        return render(request, 'manageproducts.html', context)
+#view to add new order
+def addorder(request):
+    if request.method == 'GET':
+        context = {}
+        return render(request, 'addorder.html', context)
+
+#view to manage new order
+def manageorder(request):
+    if request.method == 'GET':
+        context = {}
+        return render(request, 'manageorder.html', context)
+#view for reports
+def reports(request):
+    if request.method == 'GET':
+        context = {}
+        return render(request, 'reports.html', context)
+#view for company
+def company(request):
+    if request.method == 'GET':
+        context = {}
+        return render(request, 'company.html', context)
+#view for profile
+def profile(request):
+    if request.method == 'GET':
+        context = {}
+        return render(request, 'profile.html', context)
+#view for profile
+def settings(request):
+    if request.method == 'GET':
+        context = {}
+        return render(request, 'settings.html', context)
+
+#view to manage
 def logout(request):
     request.session.flush()
     return redirect('users:login')

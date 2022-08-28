@@ -10,18 +10,22 @@ class User(AbstractBaseUser):
     """
     id = models.AutoField(primary_key=True, blank=False, null=False)
 
-    fullname = models.CharField(max_length=255, blank=False, null=False)
+    user_group = models.IntegerField(blank=False, null=False, default=0) #stores group user is found in! 
+
+    fullname = models.CharField(max_length=85, blank=False, null=False)
+    lastname = models.CharField(max_length=85, blank=False, null=False)
 
     USERNAME_FIELD = 'username'
     username = models.CharField(max_length=30, blank=False, null=False,
                                 unique=True)  # user cannot have a username greater than 30 chars
     email = models.CharField(max_length=100, blank=False, null=False,
                                 unique=True)  # user cannot have a user
+    #0 - male 1- female
+    gender = models.CharField(max_length=1, blank=False, null=False, default=0)
     amountmade = models.FloatField(blank=False, null=False, default=0)
     # Registration
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
-
 
     #REQUIRED FIELDS
     REQUIRED_FIELDS = ['fullname', 'username', ]
