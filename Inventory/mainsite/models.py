@@ -7,7 +7,7 @@ class Products(models.Model):
     "Products model"
     id = models.AutoField(primary_key=True, blank=False, null=False)
     picture = models.ImageField(blank=True, null=True, upload_to='images/products/')
-    product_name = models.TextField(blank=False, null=False, default='')
+    product_name = models.TextField(unique=True, blank=False, null=False, default='')
     sku = models.TextField(blank=False, null=False, default='')
     units = models.IntegerField(blank=False, null=False, default=0)
     price = models.FloatField(blank=False, null=False, default=0)
@@ -68,8 +68,8 @@ class Company(models.Model):#this is the company's actual info
     address = models.TextField(blank=False, null=False, default='')
     phone = PhoneNumberField(blank=False, default='+41524204242')
     country = models.CharField(max_length=70, blank=False, null=False, default='Ghana')
-    message = RichTextField()
+    message = models.TextField()
     #0- GHABNA CEDIS
     #1- USD
 
-    currency = models.IntegerField(default=0, blank=False, null=False)
+    currency = models.CharField(default='USD', blank=False, null=False, max_length= 5)

@@ -456,16 +456,44 @@ def company(request):
     if request.method == 'GET':
         context = {}
         return render(request, 'company.html', context)
+    if request.method == 'POST':
+        newCopanyDetails= Company.objects.create(
+            company_name = request.POST['company_name'],
+            charge_amnt = request.POST['service_charge_value'],
+            vat = request.POST['vat_charge_value'],
+            address = request.POST['address'],
+            phone = request.POST['phone'],
+            country = request.POST['country'],
+            message = request.POST['message'],
+            currency = request.POST['currency']
+        )
+        newCopanyDetails.save()
+        return redirect('mainsite:company')
 #view for profile
 def profile(request):
     if request.method == 'GET':
-        context = {}
+        userObj = User.objects.get(id=int(request.session['uid']))
+
+        context = {'uid':request.session['uid'], 'user':userObj}
         return render(request, 'profile.html', context)
 #view for profile
 def settings(request):
     if request.method == 'GET':
-        context = {}
+        userObj = User.objects.get(id=int(request.session['uid']))
+        context = {'id':request.session['uid'], 'user':userObj}
         return render(request, 'settings.html', context)
+    if request.method == 'POST':
+        userObj = User.objects.get(id=int(request.POST['id!']))
+        userObj.username = request.POST['username']
+        userObj.email = request.POST['email']
+        userObj.fullname = request.POST['fname']
+        userObj.lastname = request.POST['lname']
+        userObj.phone = request.POST['phone']
+        userObj.gender = request.POST['gender']
+        userObj.save()
+        return redirect('mainsite:profile')
+        # userObj.password
+
 def getProductData(request):
     if request.method == 'POST':
         productName = request.POST['productName']

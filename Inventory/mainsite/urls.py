@@ -3,7 +3,7 @@ from .views import Home, additems, delete, checkout, confirm, logout, adduser, m
     addgroups, managegroups, managebrands, managecategory, managestores, manageattr, addproduct, \
     manageproducts, addorder, manageorder, reports, company, profile, settings, removegroup,removebrand, editbrand, fetchBrandData, \
     fetchCategoryData, editCategory, removeCategory, fetchStoreData, editstore, removestore, fetchAttrData, editattr, removeAttr, \
-    removeproduct
+    removeproduct, getProductData
 
 
 app_name='mainsite'
@@ -24,6 +24,7 @@ urlpatterns = [
     path('addgroups', addgroups, name='addgroups'),
     path('removegroup/<int:groupid>', removegroup, name='removegroup'),
     path('removebrand', removebrand, name='removebrand'),
+    path('getProductData', getProductData, name='getProductData'),
     path('removeproduct', removeproduct, name='removeproduct'),
     path('removeAttr', removeAttr, name='removeAttr'),
     path('removestore', removestore, name='removestore'),
