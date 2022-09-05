@@ -1,10 +1,12 @@
 from django.db import models
 from ckeditor.fields import RichTextField
+from phonenumber_field.modelfields import PhoneNumberField
 
 # Create your models here.
 class Products(models.Model):
     "Products model"
     id = models.AutoField(primary_key=True, blank=False, null=False)
+    picture = models.ImageField(blank=True, null=True, upload_to='images/products/')
     product_name = models.TextField(blank=False, null=False, default='')
     sku = models.TextField(blank=False, null=False, default='')
     units = models.IntegerField(blank=False, null=False, default=0)
@@ -21,28 +23,29 @@ class Products(models.Model):
 class Brand(models.Model):
     id = models.AutoField(primary_key=True, blank=False, null=False)
     brand_name = models.TextField(blank=False, null=False, default='')
-    status = models.IntegerField(blank=False, null=False, default = '')
+    #0 for inactiive, 1 for active
+    status = models.CharField(max_length=10,blank=False, null=False, default = '')
 class Category(models.Model):
     id = models.AutoField(primary_key=True, blank=False, null=False)
     category_name = models.TextField(blank=False, null=False, default='')
-    status = models.IntegerField(blank=False, null=False, default = '')
+    status = models.CharField(max_length=10,blank=False, null=False, default = '')
 
 class Stores(models.Model):
     id = models.AutoField(primary_key=True, blank=False, null=False)
     store_name = models.TextField(blank=False, null=False, default='')
-    status = models.IntegerField(blank=False, null=False, default = '')
+    status = models.CharField(max_length=10,blank=False, null=False, default = '')
 
 class Attribute(models.Model):
     id = models.AutoField(primary_key=True, blank=False, null=False)
     attr_name = models.TextField(blank=False, null=False, default='')
-    status = models.IntegerField(blank=False, null=False, default='')
+    status = models.CharField(max_length=10,blank=False, null=False, default = '')
 
 
 class Order(models.Model):
     id = models.AutoField(primary_key=True, blank=False, null=False)
     customer_name = models.TextField(blank=False, null=False, default='')
     customer_address = models.TextField(blank=False, null=False, default='')
-    customer_phone = models.IntegerField(blank=False, null=False, default=502259962)
+    customer_phone = PhoneNumberField(blank=False, default='+41524204242')
     product_name = models.IntegerField(blank=False, null=False, default=0)#dropdown of all products
     gross_amount = models.IntegerField(blank=False, null=False, default=0)
     s_charge = models.FloatField(blank=False, null=False, default=0) #13%
@@ -63,7 +66,7 @@ class Company(models.Model):#this is the company's actual info
     charge_amnt = models.FloatField(blank=False, null=False, default=0.0)
     vat = models.FloatField(blank=False, null=False, default=0.0)
     address = models.TextField(blank=False, null=False, default='')
-    phone = models.BigIntegerField(blank=False, null=False, default=0)
+    phone = PhoneNumberField(blank=False, default='+41524204242')
     country = models.CharField(max_length=70, blank=False, null=False, default='Ghana')
     message = RichTextField()
     #0- GHABNA CEDIS

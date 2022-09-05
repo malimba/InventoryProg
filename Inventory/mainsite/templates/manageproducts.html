@@ -26,7 +26,7 @@ Manage Products
         <div id="messages"></div>
 
 
-                  <a href="http://localhost:8888/stock/products/create" class="btn btn-primary">Add Product</a>
+                  <a href="{% url 'mainsite:addproduct' %}" class="btn btn-primary">Add Product</a>
           <br> <br>
 
         <div class="box">
@@ -35,12 +35,47 @@ Manage Products
           </div>
           <!-- /.box-header -->
           <div class="box-body">
-            <div id="manageTable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer"><div class="row"><div class="col-sm-6"><div class="dataTables_length" id="manageTable_length"><label>Show <select name="manageTable_length" aria-controls="manageTable" class="form-control input-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-6"><div id="manageTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control input-sm" placeholder="" aria-controls="manageTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table id="manageTable" class="table table-bordered table-striped dataTable no-footer" role="grid" aria-describedby="manageTable_info" style="width: 624px;">
+            <div id="manageTable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer"><div class="row"><div class="col-sm-6"><div class="dataTables_length" id="manageTable_length"><label>Show <select onchange="changeTermEntry(this);" name="manageTable_length" aria-controls="manageTable" class="form-control input-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-6"><div id="manageTable_filter" class="dataTables_filter"><label>Search:<input id="searchInp" type="search" class="form-control input-sm" placeholder="" aria-controls="manageTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table id="manageTable" class="table table-bordered table-striped dataTable no-footer" role="grid" aria-describedby="manageTable_info" style="width: 624px;">
               <thead>
-              <tr role="row"><th class="sorting" tabindex="0" aria-controls="manageTable" rowspan="1" colspan="1" style="width: 39px;" aria-label="Image: activate to sort column ascending">Image</th><th class="sorting" tabindex="0" aria-controls="manageTable" rowspan="1" colspan="1" style="width: 26px;" aria-label="SKU: activate to sort column ascending">SKU</th><th class="sorting" tabindex="0" aria-controls="manageTable" rowspan="1" colspan="1" style="width: 50px;" aria-label="Product Name: activate to sort column ascending">Product Name</th><th class="sorting" tabindex="0" aria-controls="manageTable" rowspan="1" colspan="1" style="width: 32px;" aria-label="Price: activate to sort column ascending">Price</th><th class="sorting" tabindex="0" aria-controls="manageTable" rowspan="1" colspan="1" style="width: 23px;" aria-label="Qty: activate to sort column ascending">Qty</th><th class="sorting" tabindex="0" aria-controls="manageTable" rowspan="1" colspan="1" style="width: 33px;" aria-label="Store: activate to sort column ascending">Store</th><th class="sorting" tabindex="0" aria-controls="manageTable" rowspan="1" colspan="1" style="width: 70px;" aria-label="Availability: activate to sort column ascending">Availability</th><th class="sorting" tabindex="0" aria-controls="manageTable" rowspan="1" colspan="1" style="width: 40px;" aria-label="Action: activate to sort column ascending">Action</th></tr>
+              <tr role="row"><th onclick="reverse_cols();" class="sorting" tabindex="0" aria-controls="manageTable" rowspan="1" colspan="1" style="width: 39px;" aria-label="Image: activate to sort column ascending">Image</th><th onclick="reverse_cols();" class="sorting" tabindex="0" aria-controls="manageTable" rowspan="1" colspan="1" style="width: 26px;" aria-label="SKU: activate to sort column ascending">SKU</th><th onclick="reverse_cols();" class="sorting" tabindex="0" aria-controls="manageTable" rowspan="1" colspan="1" style="width: 50px;" aria-label="Product Name: activate to sort column ascending">Product Name</th><th onclick="reverse_cols();" class="sorting" tabindex="0" aria-controls="manageTable" rowspan="1" colspan="1" style="width: 32px;" aria-label="Price: activate to sort column ascending">Price</th><th onclick="reverse_cols();" class="sorting" tabindex="0" aria-controls="manageTable" rowspan="1" colspan="1" style="width: 23px;" aria-label="Qty: activate to sort column ascending">Qty</th><th onclick="reverse_cols();" class="sorting" tabindex="0" aria-controls="manageTable" rowspan="1" colspan="1" style="width: 33px;" aria-label="Store: activate to sort column ascending">Store</th><th onclick="reverse_cols();" class="sorting" tabindex="0" aria-controls="manageTable" rowspan="1" colspan="1" style="width: 70px;" aria-label="Availability: activate to sort column ascending">Availability</th><th onclick="reverse_cols();" class="sorting" tabindex="0" aria-controls="manageTable" rowspan="1" colspan="1" style="width: 40px;" aria-label="Action: activate to sort column ascending">Action</th></tr>
               </thead>
 
-            <tbody><tr class="odd"><td valign="top" colspan="8" class="dataTables_empty">No data available in table</td></tr></tbody></table></div></div><div class="row"><div class="col-sm-5"><div class="dataTables_info" id="manageTable_info" role="status" aria-live="polite">Showing 0 to 0 of 0 entries</div></div><div class="col-sm-7"><div class="dataTables_paginate paging_simple_numbers" id="manageTable_paginate"><ul class="pagination"><li class="paginate_button previous disabled" id="manageTable_previous"><a href="#" aria-controls="manageTable" data-dt-idx="0" tabindex="0">Previous</a></li><li class="paginate_button next disabled" id="manageTable_next"><a href="#" aria-controls="manageTable" data-dt-idx="1" tabindex="0">Next</a></li></ul></div></div></div></div>
+            <tbody>
+               {% if products %}
+                    {% for product in products %}
+                <tr class="odd" role="row">
+
+                      <td>{{product.picture}}</td>
+                      <td>{{product.sku}}</td>
+                      <td>{{product.product_name}}</td>
+                      <td>{{product.price}}</td>
+                      <td>{{product.units}}</td>
+                    {% if stores %}
+                    {% for store in stores %}
+                    {% if store.id == product.store %}
+                      <td>{{store.store_name}}</td>
+                  {% else %}
+                  {% endif %}
+                  {% endfor %}
+                  {% else %}
+                      <td>{{product.store}}</td>
+                  {% endif %}
+                  {% if product.availability == 1 %}
+                      <td>Yes</td>
+                  {% else %}
+                    <td>No</td>
+                  {% endif %}
+                  <td><button type="button" class="btn btn-default" onclick="removeFunc({{product.id}})" data-toggle="modal" data-target="#removeModal">
+                <i class="fa fa-trash"></i></button>
+				</td>
+                </tr>
+              {% endfor %}
+                  {% else %}
+                  <td valign="top" colspan="8" class="dataTables_empty">No data available in table</td>
+                  {% endif %}
+              </tbody>
+            </table>
+            </div></div><div class="row"><div class="col-sm-5"><div class="dataTables_info" id="manageTable_info" role="status" aria-live="polite">Showing 0 to <p id="termnentry">10</p> of {{totalentries}} entries</div></div><div class="col-sm-7"><div class="dataTables_paginate paging_simple_numbers" id="manageTable_paginate"><ul class="pagination"><li class="paginate_button previous disabled" id="manageTable_previous"><a href="#" aria-controls="manageTable" data-dt-idx="0" tabindex="0">Previous</a></li><li class="paginate_button next disabled" id="manageTable_next"><a href="#" aria-controls="manageTable" data-dt-idx="1" tabindex="0">Next</a></li></ul></div></div></div></div>
           </div>
           <!-- /.box-body -->
         </div>
@@ -62,7 +97,8 @@ Manage Products
         <h4 class="modal-title">Remove Product</h4>
       </div>
 
-      <form role="form" action="http://localhost:8888/stock/products/remove" method="post" id="removeForm">
+      <form role="form" action="/removeproduct" method="post" id="removeForm">
+          {% csrf_token %}
         <div class="modal-body">
           <p>Do you really want to remove?</p>
         </div>
@@ -81,6 +117,12 @@ var manageTable;
 var base_url = "http://localhost:8888/stock/";
 
 $(document).ready(function() {
+$("#searchInp").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#manageTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
 
   $("#mainProductNav").addClass('active');
 
@@ -91,7 +133,19 @@ $(document).ready(function() {
   });
 
 });
-
+function changeTermEntry(this_){
+    $('table tbody tr').hide();
+    const trs = document.getElementById('userTable').rows;
+    document.getElementById('termnentry').innerText=this_.value;
+    document.getElementById('termnentry').value=this_.value;
+    $('table tbody > tr').slice(0,parseInt(this_.value)).show();
+    return;
+}
+function reverse_cols(){
+$("table td").each(function() {
+  $(this).parent().prepend(this);
+});
+}
 // remove functions
 function removeFunc(id)
 {
@@ -106,20 +160,25 @@ function removeFunc(id)
       $.ajax({
         url: form.attr('action'),
         type: form.attr('method'),
+        headers: {
+            "X-CSRFToken" : $("input[name=csrfmiddlewaretoken]").val()
+        },
         data: { product_id:id },
         dataType: 'json',
         success:function(response) {
 
-          manageTable.ajax.reload(null, false);
+          //manageTable.ajax.reload(null, false);
 
           if(response.success === true) {
             $("#messages").html('<div class="alert alert-success alert-dismissible" role="alert">'+
               '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
-              '<strong> <span class="glyphicon glyphicon-ok-sign"></span> </strong>'+response.messages+
+              '<strong> <span class="glyphicon glyphicon-ok-sign"></span> </strong>'+response.message+
             '</div>');
 
             // hide the modal
-            $("#removeModal").modal('hide');
+           // $("#removeModal").modal('hide');
+           //reload page
+           window.location.reload();
 
           } else {
 

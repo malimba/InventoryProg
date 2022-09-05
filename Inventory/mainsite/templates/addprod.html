@@ -33,6 +33,7 @@ Add Product
           </div>
           <!-- /.box-header -->
           <form role="form" action="" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
               <div class="box-body">
 
 
@@ -40,182 +41,86 @@ Add Product
 
                   <label for="product_image">Image</label>
                   <div class="kv-avatar">
-                      <div class="file-input file-input-new"><div class="file-preview ">
+                      <div class="file-input required file-input required-new"><div class="file-preview ">
         <div class="file-drop-disabled">
     <div class="file-preview-thumbnails">
     </div>
     <div class="clearfix"></div>    <div class="file-preview-status text-center text-success"></div>
-    <div class="kv-fileinput-error"></div>
+    <div class="kv-fileinput required-error"></div>
     </div>
-</div> <button type="button" class="btn btn-secondary" title="Add picture tags" onclick="alert('Call your custom code here.')"><i class="glyphicon glyphicon-tag"></i></button> <button type="button" tabindex="500" title="Cancel or reset changes" class="btn btn-default btn-secondary fileinput-remove fileinput-remove-button"><i class="glyphicon glyphicon-remove"></i> </button> <div tabindex="500" class="btn btn-primary btn-file"><i class="glyphicon glyphicon-folder-open"></i> <input id="product_image" name="product_image" type="file"></div></div>
+</div> <button type="button" class="btn btn-secondary" title="Add picture tags" onclick="alert('Call your custom code here.')"><i class="glyphicon glyphicon-tag"></i></button> <button type="button" tabindex="500" title="Cancel or reset changes" class="btn btn-default btn-secondary fileinput required-remove fileinput required-remove-button"><i class="glyphicon glyphicon-remove"></i> </button> <div tabindex="500" class="btn btn-primary btn-file"><i class="glyphicon glyphicon-folder-open"></i> <input required type="file" name="product_image" id="product_image"></div></div>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label for="product_name">Product name</label>
-                  <input type="text" class="form-control" id="product_name" name="product_name" placeholder="Enter product name" autocomplete="off">
+                  <input required type="text" class="form-control" id="product_name" name="product_name" placeholder="Enter product name" autocomplete="off">
                 </div>
 
                 <div class="form-group">
                   <label for="sku">SKU</label>
-                  <input type="text" class="form-control" id="sku" name="sku" placeholder="Enter sku" autocomplete="off">
+                  <input required type="text" class="form-control" id="sku" name="sku" placeholder="Enter sku" autocomplete="off">
                 </div>
 
                 <div class="form-group">
                   <label for="price">Price</label>
-                  <input type="text" class="form-control" id="price" name="price" placeholder="Enter price" autocomplete="off">
+                  <input required type="number" class="form-control" id="price" name="price" placeholder="Enter price" autocomplete="off">
                 </div>
 
                 <div class="form-group">
                   <label for="qty">Qty</label>
-                  <input type="text" class="form-control" id="qty" name="qty" placeholder="Enter Qty" autocomplete="off">
+                  <input required type="number" class="form-control" id="qty" name="qty" placeholder="Enter Qty" autocomplete="off">
                 </div>
 
-                <div class="form-group">
-                  <label for="description">Description</label>
-                  <ul class="wysihtml5-toolbar" style=""><li class="dropdown">
-  <a class="btn btn-default dropdown-toggle " data-toggle="dropdown">
 
-      <span class="glyphicon glyphicon-font"></span>
-
-    <span class="current-font">Normal text</span>
-    <b class="caret"></b>
-  </a>
-  <ul class="dropdown-menu">
-    <li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="p" tabindex="-1" href="javascript:;" unselectable="on">Normal text</a></li>
-    <li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h1" tabindex="-1" href="javascript:;" unselectable="on">Heading 1</a></li>
-    <li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h2" tabindex="-1" href="javascript:;" unselectable="on">Heading 2</a></li>
-    <li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h3" tabindex="-1" href="javascript:;" unselectable="on">Heading 3</a></li>
-    <li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h4" tabindex="-1" href="javascript:;" unselectable="on">Heading 4</a></li>
-    <li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h5" tabindex="-1" href="javascript:;" unselectable="on">Heading 5</a></li>
-    <li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h6" tabindex="-1" href="javascript:;" unselectable="on">Heading 6</a></li>
-  </ul>
-</li>
-<li>
-  <div class="btn-group">
-    <a class="btn  btn-default" data-wysihtml5-command="bold" title="CTRL+B" tabindex="-1" href="javascript:;" unselectable="on">Bold</a>
-    <a class="btn  btn-default" data-wysihtml5-command="italic" title="CTRL+I" tabindex="-1" href="javascript:;" unselectable="on">Italic</a>
-    <a class="btn  btn-default" data-wysihtml5-command="underline" title="CTRL+U" tabindex="-1" href="javascript:;" unselectable="on">Underline</a>
-
-    <a class="btn  btn-default" data-wysihtml5-command="small" title="CTRL+S" tabindex="-1" href="javascript:;" unselectable="on">Small</a>
-
-  </div>
-</li>
-<li>
-  <a class="btn  btn-default" data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="blockquote" data-wysihtml5-display-format-name="false" tabindex="-1" href="javascript:;" unselectable="on">
-
-      <span class="glyphicon glyphicon-quote"></span>
-
-  </a>
-</li>
-<li>
-  <div class="btn-group">
-    <a class="btn  btn-default" data-wysihtml5-command="insertUnorderedList" title="Unordered list" tabindex="-1" href="javascript:;" unselectable="on">
-
-      <span class="glyphicon glyphicon-list"></span>
-
-    </a>
-    <a class="btn  btn-default" data-wysihtml5-command="insertOrderedList" title="Ordered list" tabindex="-1" href="javascript:;" unselectable="on">
-
-      <span class="glyphicon glyphicon-th-list"></span>
-
-    </a>
-    <a class="btn  btn-default" data-wysihtml5-command="Outdent" title="Outdent" tabindex="-1" href="javascript:;" unselectable="on">
-
-      <span class="glyphicon glyphicon-indent-right"></span>
-
-    </a>
-    <a class="btn  btn-default" data-wysihtml5-command="Indent" title="Indent" tabindex="-1" href="javascript:;" unselectable="on">
-
-      <span class="glyphicon glyphicon-indent-left"></span>
-
-    </a>
-  </div>
-</li>
-<li>
-  <div class="bootstrap-wysihtml5-insert-link-modal modal fade" data-wysihtml5-dialog="createLink">
-    <div class="modal-dialog ">
-      <div class="modal-content">
-        <div class="modal-header">
-          <a class="close" data-dismiss="modal">×</a>
-          <h3>Insert link</h3>
-        </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <input value="http://" class="bootstrap-wysihtml5-insert-link-url form-control" data-wysihtml5-dialog-field="href">
-          </div>
-          <div class="checkbox">
-            <label>
-              <input type="checkbox" class="bootstrap-wysihtml5-insert-link-target" checked="">Open link in new window
-            </label>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <a class="btn btn-default" data-dismiss="modal" data-wysihtml5-dialog-action="cancel" href="#">Cancel</a>
-          <a href="#" class="btn btn-primary" data-dismiss="modal" data-wysihtml5-dialog-action="save">Insert link</a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <a class="btn  btn-default" data-wysihtml5-command="createLink" title="Insert link" tabindex="-1" href="javascript:;" unselectable="on">
-
-      <span class="glyphicon glyphicon-share"></span>
-
-  </a>
-</li>
-<li>
-  <div class="bootstrap-wysihtml5-insert-image-modal modal fade" data-wysihtml5-dialog="insertImage">
-    <div class="modal-dialog ">
-      <div class="modal-content">
-        <div class="modal-header">
-          <a class="close" data-dismiss="modal">×</a>
-          <h3>Insert image</h3>
-        </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <input value="http://" class="bootstrap-wysihtml5-insert-image-url form-control" data-wysihtml5-dialog-field="src">
-          </div>
-        </div>
-        <div class="modal-footer">
-          <a class="btn btn-default" data-dismiss="modal" data-wysihtml5-dialog-action="cancel" href="#">Cancel</a>
-          <a class="btn btn-primary" data-dismiss="modal" data-wysihtml5-dialog-action="save" href="#">Insert image</a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <a class="btn  btn-default" data-wysihtml5-command="insertImage" title="Insert image" tabindex="-1" href="javascript:;" unselectable="on">
-
-      <span class="glyphicon glyphicon-picture"></span>
-
-  </a>
-</li>
-</ul><textarea type="text" class="form-control" id="description" name="description" autocomplete="off" style="display: none;" placeholder="Enter
-                  description">                  </textarea><input type="hidden" name="_wysihtml5_mode" value="1"><iframe class="wysihtml5-sandbox" security="restricted" allowtransparency="true" frameborder="0" width="0" height="0" marginwidth="0" marginheight="0" style="display: block; background-color: rgb(255, 255, 255); border-collapse: separate; border-color: rgb(210, 214, 222); border-style: solid; border-width: 1px; clear: none; float: none; margin: 0px; outline: rgb(85, 85, 85) none 0px; outline-offset: 0px; padding: 6px 12px; position: static; inset: auto; z-index: auto; vertical-align: baseline; text-align: start; box-sizing: border-box; box-shadow: none; border-radius: 0px; width: 100%; height: auto;"></iframe>
+                <div clas="form-group">
+                    <label for="description">Description</label>
+                    <input required class="form-control" type="text" id="description" name="description">
                 </div>
-
 
                 <div class="form-group">
                   <label for="brands">Brands</label>
-                  <select class="form-control select_group select2-hidden-accessible" id="brands" name="brands[]" multiple="" tabindex="-1" aria-hidden="true">
-                                          <option value="4">nike</option>
-                                      </select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 653px;"><span class="selection"><span class="select2-selection select2-selection--multiple" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="-1"><ul class="select2-selection__rendered"><li class="select2-search select2-search--inline"><input class="select2-search__field" type="search" tabindex="0" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" role="textbox" aria-autocomplete="list" placeholder="" style="width: 0.75em;"></li></ul></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-                </div>
+                    {% if brands %}
+                        <select class="form-control"  id="brands" name="brands">
+                            {% for brand in brands %}
+                                          <option value="{{brand.id}}">{{brand.brand_name}}</option>
+                            {% endfor %}
+                                      </select>
 
-                <div class="form-group">
+                    {% else %}
+                    <input required type="text" value="Nothing Here" readonly>
+                    {% endif %}
+                </div>
+                  <div class="form-group">
                   <label for="category">Category</label>
-                  <select class="form-control select_group select2-hidden-accessible" id="category" name="category[]" multiple="" tabindex="-1" aria-hidden="true">
-                                      </select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 653px;"><span class="selection"><span class="select2-selection select2-selection--multiple" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="-1"><ul class="select2-selection__rendered"><li class="select2-search select2-search--inline"><input class="select2-search__field" type="search" tabindex="0" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" role="textbox" aria-autocomplete="list" placeholder="" style="width: 0.75em;"></li></ul></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-                </div>
+                    {% if category %}
+                        <select class="form-control" id="category" name="category">
+                            {% for cat in category %}
+                                          <option value="{{cat.id}}">{{cat.category_name}}</option>
+                            {% endfor %}
+                                      </select>
 
-                <div class="form-group">
+                    {% else %}
+                    <input required type="text" value="Nothing Here" readonly>
+                    {% endif %}
+                </div>
+                  <div class="form-group">
                   <label for="store">Store</label>
-                  <select class="form-control select_group select2-hidden-accessible" id="store" name="store" tabindex="-1" aria-hidden="true">
-                                      </select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 653px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-store-container"><span class="select2-selection__rendered" id="select2-store-container"></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                    {% if stores %}
+                        <select class="form-control"  id="store" name="store">
+                            {% for store in stores %}
+                                          <option value="{{store.id}}">{{store.store_name}}</option>
+                            {% endfor %}
+                                      </select>
+
+                    {% else %}
+                    <input required type="text" value="Nothing Here" readonly>
+                    {% endif %}
                 </div>
 
                 <div class="form-group">
                   <label for="store">Availability</label>
-                  <select class="form-control" id="availability" name="availability">
+                  <select  class="form-control" id="availability" name="availability">
                     <option value="1">Yes</option>
                     <option value="2">No</option>
                   </select>
@@ -243,11 +148,11 @@ Add Product
 </div>
 <script type="text/javascript">
   $(document).ready(function() {
-    $(".select_group").select2();
-    $("#description").wysihtml5();
+    //$(".select_group").select2();
+    //$("#description").wysihtml5();
 
-    $("#mainProductNav").addClass('active');
-    $("#addProductNav").addClass('active');
+    //$("#mainProductNav").addClass('active');
+    //$("#addProductNav").addClass('active');
 
     var btnCust = '<button type="button" class="btn btn-secondary" title="Add picture tags" ' +
         'onclick="alert(\'Call your custom code here.\')">' +

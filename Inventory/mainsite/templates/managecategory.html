@@ -37,12 +37,28 @@ Manage Category
           </div>
           <!-- /.box-header -->
           <div class="box-body">
-            <div id="manageTable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer"><div class="row"><div class="col-sm-6"><div class="dataTables_length" id="manageTable_length"><label>Show <select name="manageTable_length" aria-controls="manageTable" class="form-control input-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-6"><div id="manageTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control input-sm" placeholder="" aria-controls="manageTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table id="manageTable" class="table table-bordered table-striped dataTable no-footer" role="grid" aria-describedby="manageTable_info" style="width: 668px;">
+            <div id="manageTable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer"><div class="row"><div class="col-sm-6"><div class="dataTables_length" id="manageTable_length"><label>Show <select name="manageTable_length" aria-controls="manageTable" class="form-control input-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-6"><div id="manageTable_filter" class="dataTables_filter"><label>Search:<input id="searchInp" type="search" class="form-control input-sm" placeholder="" aria-controls="manageTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table id="manageTable" class="table table-bordered table-striped dataTable no-footer" role="grid" aria-describedby="manageTable_info" style="width: 668px;">
               <thead>
               <tr role="row"><th class="sorting" tabindex="0" aria-controls="manageTable" rowspan="1" colspan="1" style="width: 269px;" aria-label="Category Name: activate to sort column ascending">Category Name</th><th class="sorting" tabindex="0" aria-controls="manageTable" rowspan="1" colspan="1" style="width: 142px;" aria-label="Status: activate to sort column ascending">Status</th><th class="sorting" tabindex="0" aria-controls="manageTable" rowspan="1" colspan="1" style="width: 141px;" aria-label="Action: activate to sort column ascending">Action</th></tr>
               </thead>
 
-            <tbody><tr class="odd"><td valign="top" colspan="3" class="dataTables_empty">No data available in table</td></tr></tbody></table></div></div><div class="row"><div class="col-sm-5"><div class="dataTables_info" id="manageTable_info" role="status" aria-live="polite">Showing 0 to 0 of 0 entries</div></div><div class="col-sm-7"><div class="dataTables_paginate paging_simple_numbers" id="manageTable_paginate"><ul class="pagination"><li class="paginate_button previous disabled" id="manageTable_previous"><a href="#" aria-controls="manageTable" data-dt-idx="0" tabindex="0">Previous</a></li><li class="paginate_button next disabled" id="manageTable_next"><a href="#" aria-controls="manageTable" data-dt-idx="1" tabindex="0">Next</a></li></ul></div></div></div></div>
+            <tbody>
+            {% if categories %}
+            {% for category in categories %}
+            <tr role="row" class="odd">
+              <td >{{category.category_name}}</td>
+              <td >{{category.status}}</td>
+              <td><button type="button" class="btn btn-default" onclick="editFunc({{category.id}})" data-toggle="modal" data-target="#editCategoryModal"><i class="fa fa-pencil"></i></button> <button type="button" class="btn btn-default" onclick="removeFunc({{category.id}})" data-toggle="modal" data-target="#removeCategoryModal">
+                <i class="fa fa-trash"></i></button>
+				</td>
+            </tr>
+            {% endfor %}
+            </tbody></table></div></div><div class="row"><div class="col-sm-5"><div class="dataTables_info" id="manageTable_info" role="status" aria-live="polite">Showing 0 to 0 of 0 entries</div></div><div class="col-sm-7"><div class="dataTables_paginate paging_simple_numbers" id="manageTable_paginate"><ul class="pagination"><li class="paginate_button previous disabled" id="manageTable_previous"><a href="#" aria-controls="manageTable" data-dt-idx="0" tabindex="0">Previous</a></li><li class="paginate_button next disabled" id="manageTable_next"><a href="#" aria-controls="manageTable" data-dt-idx="1" tabindex="0">Next</a></li></ul></div></div></div></div>
+
+            {% else %}
+            <tr class="odd"><td valign="top" colspan="3" class="dataTables_empty">No data available in table</td></tr>
+            </tbody></table></div></div><div class="row"><div class="col-sm-5"><div class="dataTables_info" id="manageTable_info" role="status" aria-live="polite">Showing 0 to 0 of 0 entries</div></div><div class="col-sm-7"><div class="dataTables_paginate paging_simple_numbers" id="manageTable_paginate"><ul class="pagination"><li class="paginate_button previous disabled" id="manageTable_previous"><a href="#" aria-controls="manageTable" data-dt-idx="0" tabindex="0">Previous</a></li><li class="paginate_button next disabled" id="manageTable_next"><a href="#" aria-controls="manageTable" data-dt-idx="1" tabindex="0">Next</a></li></ul></div></div></div></div>
+            {% endif %}
           </div>
           <!-- /.box-body -->
         </div>
@@ -67,19 +83,19 @@ Manage Category
         <h4 class="modal-title">Add Category</h4>
       </div>
 
-      <form role="form" action="http://localhost:8888/stock/category/create" method="post" id="createForm">
-
+      <form role="form" action="/managecategory" method="post" id="createForm">
+        {% csrf_token %}
         <div class="modal-body">
 
           <div class="form-group">
-            <label for="brand_name">Category Name</label>
+            <label for="category_name">Category Name</label>
             <input type="text" class="form-control" id="category_name" name="category_name" placeholder="Enter category name" autocomplete="off">
           </div>
           <div class="form-group">
-            <label for="active">Status</label>
-            <select class="form-control" id="active" name="active">
-              <option value="1">Active</option>
-              <option value="2">Inactive</option>
+            <label for="status">Status</label>
+            <select class="form-control" id="status" name="status">
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
             </select>
           </div>
         </div>
@@ -97,7 +113,7 @@ Manage Category
 </div><!-- /.modal -->
 
 <!-- edit brand modal -->
-<div class="modal fade" tabindex="-1" role="dialog" id="editModal">
+<div class="modal fade" tabindex="-1" role="dialog" id="editCategoryModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -105,20 +121,20 @@ Manage Category
         <h4 class="modal-title">Edit Category</h4>
       </div>
 
-      <form role="form" action="http://localhost:8888/stock/category/update" method="post" id="updateForm">
-
+      <form role="form" action="/editCategory" method="post" id="updateForm">
+                {% csrf_token %}
         <div class="modal-body">
           <div id="messages"></div>
 
           <div class="form-group">
-            <label for="edit_brand_name">Category Name</label>
+            <label for="edit_category_name">Category Name</label>
             <input type="text" class="form-control" id="edit_category_name" name="edit_category_name" placeholder="Enter category name" autocomplete="off">
           </div>
           <div class="form-group">
-            <label for="edit_active">Status</label>
-            <select class="form-control" id="edit_active" name="edit_active">
-              <option value="1">Active</option>
-              <option value="2">Inactive</option>
+            <label for="edit_status">Status</label>
+            <select class="form-control" id="edit_status" name="edit_status">
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
             </select>
           </div>
         </div>
@@ -136,7 +152,7 @@ Manage Category
 </div><!-- /.modal -->
 
 <!-- remove brand modal -->
-<div class="modal fade" tabindex="-1" role="dialog" id="removeModal">
+<div class="modal fade" tabindex="-1" role="dialog" id="removeCategoryModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -144,7 +160,8 @@ Manage Category
         <h4 class="modal-title">Remove Category</h4>
       </div>
 
-      <form role="form" action="http://localhost:8888/stock/category/remove" method="post" id="removeForm">
+      <form role="form" action="/removeCategory" method="post" id="removeForm">
+        {% csrf_token %}
         <div class="modal-body">
           <p>Do you really want to remove?</p>
         </div>
@@ -164,10 +181,16 @@ Manage Category
 var manageTable;
 
 $(document).ready(function() {
+$("#searchInp").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#manageTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
   $("#categoryNav").addClass('active');
 
   // initialize the datatable
-  manageTable = $('#manageTable').DataTable({
+  //manageTable = $('#manageTable').DataTable({
     'ajax': 'fetchCategoryData',
     'order': []
   });
@@ -186,7 +209,7 @@ $(document).ready(function() {
       dataType: 'json',
       success:function(response) {
 
-        manageTable.ajax.reload(null, false);
+        //manageTable.ajax.reload(null, false);
 
         if(response.success === true) {
           $("#messages").html('<div class="alert alert-success alert-dismissible" role="alert">'+
@@ -235,8 +258,12 @@ $(document).ready(function() {
 function editFunc(id)
 {
   $.ajax({
-    url: 'fetchCategoryDataById/'+id,
+    url: '/fetchCategoryData',
     type: 'post',
+    headers: {
+            "X-CSRFToken" : $("input[name=csrfmiddlewaretoken]").val()
+        },
+    data: { categoryid:id },
     dataType: 'json',
     success:function(response) {
 
@@ -251,13 +278,17 @@ function editFunc(id)
         $(".text-danger").remove();
 
         $.ajax({
-          url: form.attr('action') + '/' + id,
+          url: form.attr('action'),
           type: form.attr('method'),
-          data: form.serialize(), // /converting the form data into array and sending it to server
+           headers: {
+            "X-CSRFToken" : $("input[name=csrfmiddlewaretoken]").val()
+        },
+    data: { categoryid:id, category_name:$('#edit_category_name').val(), status:$('#edit_status').val() },
+          //data: form.serialize(), // /converting the form data into array and sending it to server
           dataType: 'json',
           success:function(response) {
 
-            manageTable.ajax.reload(null, false);
+            //manageTable.ajax.reload(null, false);
 
             if(response.success === true) {
               $("#messages").html('<div class="alert alert-success alert-dismissible" role="alert">'+
@@ -267,7 +298,9 @@ function editFunc(id)
 
 
               // hide the modal
-              $("#editModal").modal('hide');
+              //$("#editModal").modal('hide');
+              //reload page
+              window.location.reload();
               // reset the form
               $("#updateForm .form-group").removeClass('has-error').removeClass('has-success');
 
@@ -316,11 +349,14 @@ function removeFunc(id)
       $.ajax({
         url: form.attr('action'),
         type: form.attr('method'),
+        headers: {
+            "X-CSRFToken" : $("input[name=csrfmiddlewaretoken]").val()
+        },
         data: { category_id:id },
         dataType: 'json',
         success:function(response) {
 
-          manageTable.ajax.reload(null, false);
+          //manageTable.ajax.reload(null, false);
 
           if(response.success === true) {
             $("#messages").html('<div class="alert alert-success alert-dismissible" role="alert">'+
@@ -329,7 +365,8 @@ function removeFunc(id)
             '</div>');
 
             // hide the modal
-            $("#removeModal").modal('hide');
+            //$("#removeModal").modal('hide');
+            window.location.reload();
 
           } else {
 

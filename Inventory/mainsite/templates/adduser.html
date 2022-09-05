@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 
 {% load static %}
-
+{% block head %}
+ <script src="{% static 'js/adduser.js' %}"></script>
+{% endblock head %}
 {% block title %}
 Add User
 {% endblock title %}
@@ -34,64 +36,84 @@ Add User
             <div class="box-header">
               <h3 class="box-title">Add User</h3>
             </div>
-            <form role="form" action="" method="post">
+            <form id="addusrfrm" role="form" action="" method="post">
+              {% csrf_token %}
               <div class="box-body">
 
 
                 <div class="form-group">
                   <label for="groups">Groups</label>
+                  {% if groups %}
                   <select class="form-control" id="groups" name="groups">
-                    <option value="">Select Groups</option>
-                                          <option value="4">associates</option>
-                                      </select>
+                    {% for group in groups %}
+                    <option value="{{group.id}}">{{group.group_name}}</option>
+                      {% endfor %}
+                  </select>
+                    <small id="groupssmall" style="color:red;"></small>
+                  {% else %}
+                  <select class="form-control" id="groups" name="groups">
+<!--                    todo handle for this in ajax-->
+                    <option value="null">Select Group</option>
+                  </select>
+                    <small id="groupssmall" style="color:red;"></small>
+                    {% endif %}
+
                 </div>
 
                 <div class="form-group">
                   <label for="username">Username</label>
-                  <input type="text" class="form-control" id="username" name="username" placeholder="Username" autocomplete="off">
+                  <input type="text" class="form-control" id="username" name="username" placeholder="Username" autocomplete="off" required>
+                    <small style="color:red;" id="usernamesmall"></small>
                 </div>
 
                 <div class="form-group">
                   <label for="email">Email</label>
-                  <input type="email" class="form-control" id="email" name="email" placeholder="Email" autocomplete="off">
+                  <input type="email" class="form-control" id="email" name="email" placeholder="Email" autocomplete="off" required>
+                    <small style="color:red;" id="emailsmall"></small>
                 </div>
 
                 <div class="form-group">
                   <label for="password">Password</label>
-                  <input type="text" class="form-control" id="password" name="password" placeholder="Password" autocomplete="off">
+                  <input type="text" class="form-control" id="password" name="password" placeholder="Password" autocomplete="off" required>
+                    <small style="color:red;" id="passwordsmall"></small>
                 </div>
 
                 <div class="form-group">
                   <label for="cpassword">Confirm password</label>
-                  <input type="password" class="form-control" id="cpassword" name="cpassword" placeholder="Confirm Password" autocomplete="off">
+                  <input type="password" class="form-control" id="cpassword" name="cpassword" placeholder="Confirm Password" autocomplete="off" required>
+                    <small style="color:red;" id="cpasswordsmall"></small>
                 </div>
 
                 <div class="form-group">
                   <label for="fname">First name</label>
-                  <input type="text" class="form-control" id="fname" name="fname" placeholder="First name" autocomplete="off">
+                  <input type="text" class="form-control" id="fname" name="fname" placeholder="First name" autocomplete="off" required>
+                    <small style="color:red;" id="fnamesmall"></small>
                 </div>
 
                 <div class="form-group">
                   <label for="lname">Last name</label>
-                  <input type="text" class="form-control" id="lname" name="lname" placeholder="Last name" autocomplete="off">
+                  <input type="text" class="form-control" id="lname" name="lname" placeholder="Last name" autocomplete="off" required>
+                    <small style="color:red;" id="lnamesmall"></small>
                 </div>
 
                 <div class="form-group">
                   <label for="phone">Phone</label>
-                  <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone" autocomplete="off">
+                  <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone" autocomplete="off" required>
+                    <small style="color:red;" id="phonesmall"></small>
                 </div>
 
                 <div class="form-group">
                   <label for="gender">Gender</label>
                   <div class="radio">
                     <label>
-                      <input type="radio" name="gender" id="male" value="1">
+                      <input class="gendRadio" type="radio" name="gender" id="male" value="1" required>
                       Male
                     </label>
                     <label>
-                      <input type="radio" name="gender" id="female" value="2">
+                      <input class="gendRadio" type="radio" name="gender" id="female" value="2" required>
                       Female
                     </label>
+                      <small style="color:red;" id="gendersmall"></small>
                   </div>
                 </div>
 

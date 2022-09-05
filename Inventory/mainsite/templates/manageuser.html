@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block head %}
+<script src="{% static 'js/manageuser.js'%}"></script>
+{% endblock head %}
 {% block title %}
 Manage Users
 {% endblock title %}
 
 {% block body %}
-<!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+<div class="content-wrapper" style="min-height: 699px;">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
@@ -27,79 +29,48 @@ Manage Users
         <div class="col-md-12 col-xs-12">
 
 
+                      <a href="{% url 'mainsite:adduser' %}" class="btn btn-primary">Add User</a>
+            <br> <br>
+
+
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Add User</h3>
+              <h3 class="box-title">Manage Users</h3>
             </div>
-            <form role="form" action="" method="post">
-              <div class="box-body">
-
-
-                <div class="form-group">
-                  <label for="groups">Groups</label>
-                  <select class="form-control" id="groups" name="groups">
-                    <option value="">Select Groups</option>
-                                          <option value="4">associates</option>
-                                      </select>
-                </div>
-
-                <div class="form-group">
-                  <label for="username">Username</label>
-                  <input type="text" class="form-control" id="username" name="username" placeholder="Username" autocomplete="off">
-                </div>
-
-                <div class="form-group">
-                  <label for="email">Email</label>
-                  <input type="email" class="form-control" id="email" name="email" placeholder="Email" autocomplete="off">
-                </div>
-
-                <div class="form-group">
-                  <label for="password">Password</label>
-                  <input type="text" class="form-control" id="password" name="password" placeholder="Password" autocomplete="off">
-                </div>
-
-                <div class="form-group">
-                  <label for="cpassword">Confirm password</label>
-                  <input type="password" class="form-control" id="cpassword" name="cpassword" placeholder="Confirm Password" autocomplete="off">
-                </div>
-
-                <div class="form-group">
-                  <label for="fname">First name</label>
-                  <input type="text" class="form-control" id="fname" name="fname" placeholder="First name" autocomplete="off">
-                </div>
-
-                <div class="form-group">
-                  <label for="lname">Last name</label>
-                  <input type="text" class="form-control" id="lname" name="lname" placeholder="Last name" autocomplete="off">
-                </div>
-
-                <div class="form-group">
-                  <label for="phone">Phone</label>
-                  <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone" autocomplete="off">
-                </div>
-
-                <div class="form-group">
-                  <label for="gender">Gender</label>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="gender" id="male" value="1">
-                      Male
-                    </label>
-                    <label>
-                      <input type="radio" name="gender" id="female" value="2">
-                      Female
-                    </label>
-                  </div>
-                </div>
-
-              </div>
-              <!-- /.box-body -->
-
-              <div class="box-footer">
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-                <a href="http://localhost:8888/stock/users/" class="btn btn-warning">Back</a>
-              </div>
-            </form>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <div id="userTable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer"><div class="row"><div class="col-sm-6"><div class="dataTables_length" id="userTable_length"><label>Show <select name="userTable_length" aria-controls="userTable" class="form-control input-sm" onchange="changeTermEntry(this);"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-6"><div id="userTable_filter" class="dataTables_filter"><label>Search:<input type="search" id="searchInp" class="form-control input-sm" placeholder="" aria-controls="userTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table id="userTable" class="table table-bordered table-striped dataTable no-footer" role="grid" aria-describedby="userTable_info">
+                <thead>
+                <tr role="row"><th  class="sorting_asc" onclick="reverse_cols();" tabindex="0" aria-controls="userTable" rowspan="1" colspan="1" style="width: 302.844px;" aria-sort="ascending" aria-label="Username: activate to sort column descending">Username</th><th onclick="reverse_cols();" class="sorting" tabindex="0" aria-controls="userTable" rowspan="1" colspan="1" style="width: 209.047px;" aria-label="Email: activate to sort column ascending">Email</th><th onclick="reverse_cols();" class="sorting" tabindex="0" aria-controls="userTable" rowspan="1" colspan="1" style="width: 212.5px;" aria-label="Name: activate to sort column ascending">Name</th><th onclick="reverse_cols();" class="sorting" tabindex="0" aria-controls="userTable" rowspan="1" colspan="1" style="width: 223.984px;" aria-label="Phone: activate to sort column ascending">Phone</th><th onclick="reverse_cols();" class="sorting" tabindex="0" aria-controls="userTable" rowspan="1" colspan="1" style="width: 219.734px;" aria-label="Group: activate to sort column ascending">Group</th><th onclick="reverse_cols();" class="sorting" tabindex="0" aria-controls="userTable" rowspan="1" colspan="1" style="width: 221.891px;" aria-label="Action: activate to sort column ascending">Action</th></tr>
+                </thead>
+                  {% if allusers %}
+                <tbody>
+                {% for user in allusers %}
+                    <tr role="row" class="odd" style="display:none;">
+                        <td class="sorting_1">{{user.username}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{user.firstname}} {{user.lastname}}</td>
+                        <td>{{user.phone}}</td>
+                        <td>{{user.user_group}}</td>
+                        <td>
+                            <a href="http://localhost:8888/stock/users/edit/6" class="btn btn-default">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                            <a href="http://localhost:8888/stock/users/delete/6" class="btn btn-default">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                {% else %}
+                <tr class="odd">
+                        <td valign="top" colspan="6" class="dataTables_empty">No data available in table</td>
+                    </tr>
+                {% endif %}
+                </tbody>
+              </table></div></div><div class="row"><div class="col-sm-5"><div class="dataTables_info" id="userTable_info" role="status" aria-live="polite">Showing 0 to <p id="termnentry">10</p> of {{totalentries}} entries</div></div><div class="col-sm-7"><div class="dataTables_paginate paging_simple_numbers" id="userTable_paginate"><ul class="pagination"><li class="paginate_button previous disabled" id="userTable_previous"><a href="#" aria-controls="userTable" data-dt-idx="0" tabindex="0">Previous</a></li><li class="paginate_button next disabled" id="userTable_next"><a href="#" aria-controls="userTable" data-dt-idx="1" tabindex="0">Next</a></li></ul></div></div></div></div>
+            </div>
+            <!-- /.box-body -->
           </div>
           <!-- /.box -->
         </div>
@@ -111,16 +82,12 @@ Manage Users
     </section>
     <!-- /.content -->
   </div>
-  <!-- /.content-wrapper -->
-
 <script type="text/javascript">
-  $(document).ready(function() {
-    $("#groups").select2();
+    $(document).ready(function() {
+      $('#userTable').DataTable();
 
-    $("#mainUserNav").addClass('active');
-    $("#createUserNav").addClass('active');
-
-  });
-</script>
-
+      $("#mainUserNav").addClass('active');
+      $("#manageUserNav").addClass('active');
+    });
+  </script>
 {% endblock body %}

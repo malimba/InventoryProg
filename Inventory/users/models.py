@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
+from phonenumber_field.modelfields import PhoneNumberField
 
 #security
 from werkzeug.security import generate_password_hash
@@ -10,16 +11,17 @@ class User(AbstractBaseUser):
     """
     id = models.AutoField(primary_key=True, blank=False, null=False)
 
-    user_group = models.IntegerField(blank=False, null=False, default=0) #stores group user is found in! 
+    user_group = models.CharField(max_length=255, blank=False, null=False, default='') #stores group user is found in!
 
     fullname = models.CharField(max_length=85, blank=False, null=False)
     lastname = models.CharField(max_length=85, blank=False, null=False)
 
     USERNAME_FIELD = 'username'
     username = models.CharField(max_length=30, blank=False, null=False,
-                                unique=True)  # user cannot have a username greater than 30 chars
+                                unique=False)  # user cannot have a username greater than 30 chars
     email = models.CharField(max_length=100, blank=False, null=False,
-                                unique=True)  # user cannot have a user
+                                unique=False)  # user cannot have a user
+    phone = PhoneNumberField(blank=False, default='+41524204242')
     #0 - male 1- female
     gender = models.CharField(max_length=1, blank=False, null=False, default=0)
     amountmade = models.FloatField(blank=False, null=False, default=0)
@@ -50,3 +52,9 @@ class User(AbstractBaseUser):
         # create password salt
         hash = generate_password_hash(self.password, method='pbkdf2:sha256', salt_length=8)
         self.password = hash
+
+class Groups(models.Model):
+    id = models.AutoField(primary_key=True, blank=False, null=False)
+    group_name = models.CharField(max_length=255, blank=False, null=False, default='')
+    #permissions below
+    permissions = models.TextField(blank=False, null=False, default='')

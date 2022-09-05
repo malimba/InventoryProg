@@ -36,12 +36,29 @@ Manage Attributes
           </div>
           <!-- /.box-header -->
           <div class="box-body">
-            <div id="manageTable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer"><div class="row"><div class="col-sm-6"><div class="dataTables_length" id="manageTable_length"><label>Show <select name="manageTable_length" aria-controls="manageTable" class="form-control input-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-6"><div id="manageTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control input-sm" placeholder="" aria-controls="manageTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table id="manageTable" class="table table-bordered table-striped dataTable no-footer" role="grid" aria-describedby="manageTable_info" style="width: 343px;">
+            <div id="manageTable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer"><div class="row"><div class="col-sm-6"><div class="dataTables_length" id="manageTable_length"><label>Show <select name="manageTable_length" aria-controls="manageTable" class="form-control input-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-6"><div id="manageTable_filter" class="dataTables_filter"><label>Search:<input type="search" id="searchInp" class="form-control input-sm" placeholder="" aria-controls="manageTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table id="manageTable" class="table table-bordered table-striped dataTable no-footer" role="grid" aria-describedby="manageTable_info" style="width: 343px;">
               <thead>
               <tr role="row"><th class="sorting" tabindex="0" aria-controls="manageTable" rowspan="1" colspan="1" style="width: 66px;" aria-label="Attribute Name: activate to sort column ascending">Attribute Name</th><th class="sorting" tabindex="0" aria-controls="manageTable" rowspan="1" colspan="1" style="width: 42px;" aria-label="Total value: activate to sort column ascending">Total value</th><th class="sorting" tabindex="0" aria-controls="manageTable" rowspan="1" colspan="1" style="width: 40px;" aria-label="Status: activate to sort column ascending">Status</th><th class="sorting" tabindex="0" aria-controls="manageTable" rowspan="1" colspan="1" style="width: 40px;" aria-label="Action: activate to sort column ascending">Action</th></tr>
               </thead>
 
-            <tbody><tr class="odd"><td valign="top" colspan="4" class="dataTables_empty">No data available in table</td></tr></tbody></table></div></div><div class="row"><div class="col-sm-5"><div class="dataTables_info" id="manageTable_info" role="status" aria-live="polite">Showing 0 to 0 of 0 entries</div></div><div class="col-sm-7"><div class="dataTables_paginate paging_simple_numbers" id="manageTable_paginate"><ul class="pagination"><li class="paginate_button previous disabled" id="manageTable_previous"><a href="#" aria-controls="manageTable" data-dt-idx="0" tabindex="0">Previous</a></li><li class="paginate_button next disabled" id="manageTable_next"><a href="#" aria-controls="manageTable" data-dt-idx="1" tabindex="0">Next</a></li></ul></div></div></div></div>
+            <tbody>
+            {% if attributes %}
+            {% for attr in attributes %}
+            <tr class="odd" role="row">
+              <td>{{attr.attr_name}}</td>
+              <td>{{attr.status}}</td>
+              <td><button type="button" class="btn btn-default" onclick="editFunc({{attr.id}})" data-toggle="modal" data-target="#editAttrModal"><i class="fa fa-pencil"></i></button> <button type="button" class="btn btn-default" onclick="removeFunc({{attr.id}})" data-toggle="modal" data-target="#removeModal">
+                <i class="fa fa-trash"></i></button>
+				</td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr class="odd" role="row">
+              <td valign="top" colspan="4" class="dataTables_empty">No data available in table</td>
+            </tr>
+            {% endif %}
+            </tbody>
+            </table></div></div><div class="row"><div class="col-sm-5"><div class="dataTables_info" id="manageTable_info" role="status" aria-live="polite">Showing 0 to 0 of 0 entries</div></div><div class="col-sm-7"><div class="dataTables_paginate paging_simple_numbers" id="manageTable_paginate"><ul class="pagination"><li class="paginate_button previous disabled" id="manageTable_previous"><a href="#" aria-controls="manageTable" data-dt-idx="0" tabindex="0">Previous</a></li><li class="paginate_button next disabled" id="manageTable_next"><a href="#" aria-controls="manageTable" data-dt-idx="1" tabindex="0">Next</a></li></ul></div></div></div></div>
           </div>
           <!-- /.box-body -->
         </div>
@@ -67,19 +84,19 @@ Manage Attributes
         <h4 class="modal-title">Add Attribute</h4>
       </div>
 
-      <form role="form" action="http://localhost:8888/stock/attributes/create" method="post" id="createForm">
-
+      <form role="form" action="/manageattr" method="post" id="createForm">
+        {% csrf_token %}
         <div class="modal-body">
 
           <div class="form-group">
-            <label for="brand_name">Attribute Name</label>
-            <input type="text" class="form-control" id="attribute_name" name="attribute_name" placeholder="Enter attribute name" autocomplete="off">
+            <label for="attr_name">Attribute Name</label>
+            <input type="text" class="form-control" id="attr_name" name="attr_name" placeholder="Enter attribute name" autocomplete="off">
           </div>
           <div class="form-group">
-            <label for="active">Status</label>
-            <select class="form-control" id="active" name="active">
-              <option value="1">Active</option>
-              <option value="2">Inactive</option>
+            <label for="status">Status</label>
+            <select class="form-control" id="status" name="status">
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
             </select>
           </div>
         </div>
@@ -97,7 +114,7 @@ Manage Attributes
 </div><!-- /.modal -->
 
 <!-- edit brand modal -->
-<div class="modal fade" tabindex="-1" role="dialog" id="editModal">
+<div class="modal fade" tabindex="-1" role="dialog" id="editAttrModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -105,20 +122,20 @@ Manage Attributes
         <h4 class="modal-title">Edit Store</h4>
       </div>
 
-      <form role="form" action="http://localhost:8888/stock/attributes/update" method="post" id="updateForm">
+      <form role="form" action="/editattr" method="post" id="updateForm">
 
         <div class="modal-body">
           <div id="messages"></div>
 
           <div class="form-group">
-            <label for="edit_brand_name">Attribute Name</label>
-            <input type="text" class="form-control" id="edit_attribute_name" name="edit_attribute_name" placeholder="Enter attribute name" autocomplete="off">
+            <label for="edit_attr_name">Attribute Name</label>
+            <input type="text" class="form-control" id="edit_attr_name" name="edit_attr_name" placeholder="Enter attribute name" autocomplete="off">
           </div>
           <div class="form-group">
-            <label for="edit_active">Status</label>
-            <select class="form-control" id="edit_active" name="edit_active">
-              <option value="1">Active</option>
-              <option value="2">Inactive</option>
+            <label for="edit_status">Status</label>
+            <select class="form-control" id="edit_status" name="edit_status">
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
             </select>
           </div>
         </div>
@@ -144,7 +161,8 @@ Manage Attributes
         <h4 class="modal-title">Remove Attribute</h4>
       </div>
 
-      <form role="form" action="http://localhost:8888/stock/attributes/remove" method="post" id="removeForm">
+      <form role="form" action="/removeAttr" method="post" id="removeForm">
+        {% csrf_token %}
         <div class="modal-body">
           <p>Do you really want to remove?</p>
         </div>
@@ -167,6 +185,12 @@ var base_url = "http://localhost:8888/stock/";
 
 $(document).ready(function() {
 
+$("#searchInp").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#manageTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
 
 
   $("#attributeNav").addClass('active');
@@ -240,13 +264,17 @@ $(document).ready(function() {
 function editFunc(id)
 {
   $.ajax({
-    url: 'fetchAttributeDataById/'+id,
+    url: '/fetchAttrData',
     type: 'post',
+    headers: {
+            "X-CSRFToken" : $("input[name=csrfmiddlewaretoken]").val()
+        },
+        data:{attrid:id},
     dataType: 'json',
     success:function(response) {
-
-      $("#edit_attribute_name").val(response.name);
-      $("#edit_active").val(response.active);
+      console.log(response);
+      $("#edit_attr_name").val(response.name);
+      $("#edit_status").val(response.status);
 
       // submit the edit from
       $("#updateForm").unbind('submit').bind('submit', function() {
@@ -256,23 +284,28 @@ function editFunc(id)
         $(".text-danger").remove();
 
         $.ajax({
-          url: form.attr('action') + '/' + id,
+          url: form.attr('action'),
           type: form.attr('method'),
-          data: form.serialize(), // /converting the form data into array and sending it to server
+          headers: {
+            "X-CSRFToken" : $("input[name=csrfmiddlewaretoken]").val()
+        },
+          data: {attrid:id, attr_name:$("#edit_attr_name").val(), status: $("#edit_status").val()}, // /converting the form data into array and sending it to server
           dataType: 'json',
           success:function(response) {
 
-            manageTable.ajax.reload(null, false);
+            //manageTable.ajax.reload(null, false);
 
             if(response.success === true) {
               $("#messages").html('<div class="alert alert-success alert-dismissible" role="alert">'+
                 '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
-                '<strong> <span class="glyphicon glyphicon-ok-sign"></span> </strong>'+response.messages+
+                '<strong> <span class="glyphicon glyphicon-ok-sign"></span> </strong>'+response.message+
               '</div>');
 
 
               // hide the modal
-              $("#editModal").modal('hide');
+             // $("#editModal").modal('hide');
+             //reload page
+             window.location.reload();
               // reset the form
               $("#updateForm .form-group").removeClass('has-error').removeClass('has-success');
 
@@ -321,11 +354,14 @@ function removeFunc(id)
       $.ajax({
         url: form.attr('action'),
         type: form.attr('method'),
-        data: { attribute_id:id },
+        headers: {
+            "X-CSRFToken" : $("input[name=csrfmiddlewaretoken]").val()
+        },
+        data: { attrid:id },
         dataType: 'json',
         success:function(response) {
 
-          manageTable.ajax.reload(null, false);
+         // manageTable.ajax.reload(null, false);
 
           if(response.success === true) {
             $("#messages").html('<div class="alert alert-success alert-dismissible" role="alert">'+
@@ -334,7 +370,9 @@ function removeFunc(id)
             '</div>');
 
             // hide the modal
-            $("#removeModal").modal('hide');
+            //$("#removeModal").modal('hide');
+            //reload page
+            window.location.reload();
 
           } else {
 
@@ -355,5 +393,3 @@ function removeFunc(id)
 </script>
 
 {% endblock body %}
-{%  %}
-{%  %}
